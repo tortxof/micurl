@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 var express = require('express');
 var mongoose = require('mongoose');
 
@@ -30,11 +31,13 @@ app.get('/', function(req, res) {
 app.get(/^\/new\/.*/, function(req, res) {
   var url = new Url();
   url.original_url = req.originalUrl.match(/^\/new\/(.*)/)[1];
-  url.slug = Math.floor(Math.random() * 1000000);
   if (! /^(?:http|https):\/\/.+\..+/.test(url.original_url)) {
     res.status(400).json({error: 'Not a valid url.'});
     return;
   }
+  url.slug = crypto.randomBytes(3).toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
   url.save(function(err) {
     if (err) {
       res.send(err);
@@ -47,8 +50,8 @@ app.get(/^\/new\/.*/, function(req, res) {
   });
 });
 
-app.get(/^\/\d*/, function(req, res) {
-  var slug = parseInt(req.originalUrl.match(/^\/(\d*)/)[1]);
+app.get(/^\/(?:\w|\-){4}/, function(req, res) {
+  var slug = req.originalUrl.match(/^\/(.{4,})/)[1];
   console.log(slug);
   Url.findOne({slug: slug}, 'original_url', function(err, url) {
     if (err) {
