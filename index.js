@@ -31,6 +31,10 @@ app.get(/^\/new\/.*/, function(req, res) {
   var url = new Url();
   url.original_url = req.originalUrl.match(/^\/new\/(.*)/)[1];
   url.slug = Math.floor(Math.random() * 1000000);
+  if (! /^(?:http|https):\/\/.+\..+/.test(url.original_url)) {
+    res.status(400).json({error: 'Not a valid url.'});
+    return;
+  }
   url.save(function(err) {
     if (err) {
       res.send(err);
