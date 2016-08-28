@@ -15,6 +15,8 @@ app.set('mongo_password', (process.env.MONGO_PASSWORD || null));
 app.set('mongo_server', (process.env.MONGO_SERVER || 'localhost:27017'));
 app.set('mongo_db', (process.env.MONGO_DB || 'micurl'));
 
+app.set('views', './views')
+app.set('view engine', 'pug');
 
 (function() {
   let db_uri;
@@ -30,7 +32,7 @@ app.set('mongo_db', (process.env.MONGO_DB || 'micurl'));
 const Url = require('./models/url');
 
 app.get('/', function(req, res) {
-  res.send('Hello.');
+  res.render('index');
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));

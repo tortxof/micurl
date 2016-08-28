@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title micurl
+  body
+    h1 micurl
+    form(action="/new/", method="post")
+      input(type="url", name="url", placeholder="https://www.example.com", autofocus)
+      button(type="submit") Get Short URL
