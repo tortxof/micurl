@@ -8,10 +8,12 @@ html(lang="en")
   body
     .container
       h1 micurl
-      form(action="/new/", method="post")
+      form#url_form(action="/new/", method="post")
         .row
           label(for="original_url") Long URL
           input.u-full-width#original_url(type="url", name="url", placeholder="https://www.example.com", autofocus)
-        button.button-primary(type="submit") Get Short URL
+        button.button-primary#get_short_url(type="submit") Get Short URL
 
-      #short_urls
+      #urls
+
+    script(src="/static/main.js")

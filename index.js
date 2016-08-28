@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const express = require('express');
 const newRouter = express.Router();
 const bodyParser = require('body-parser');
+const multer = require('multer')();
 const mongoose = require('mongoose');
 
 const app = express();
@@ -14,6 +15,8 @@ app.set('mongo_user', (process.env.MONGO_USER || null));
 app.set('mongo_password', (process.env.MONGO_PASSWORD || null));
 app.set('mongo_server', (process.env.MONGO_SERVER || 'localhost:27017'));
 app.set('mongo_db', (process.env.MONGO_DB || 'micurl'));
+
+app.use('/static', express.static(__dirname + '/static'));
 
 app.set('views', './views')
 app.set('view engine', 'pug');
@@ -36,6 +39,7 @@ app.get('/', function(req, res) {
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));
+newRouter.use(multer.none());
 
 newRouter.use(function(req, res, next) {
   const url = new Url();
@@ -74,7 +78,6 @@ app.use('/new', newRouter);
 
 app.get(/^\/(?:\w|\-){4}/, function(req, res) {
   const slug = req.originalUrl.match(/^\/(.{4,})/)[1];
-  console.log(slug);
   Url.findOne({slug: slug}, 'original_url', function(err, url) {
     if (err) {
       res.send(err);
