@@ -2,6 +2,10 @@ var bGetShortUrl = document.getElementById('get_short_url');
 var urlForm = document.getElementById('url_form');
 var divUrls = document.getElementById('urls');
 
+function makeLink(url) {
+  return '<a href="' + url + '">' + url + '</a>';
+}
+
 urlForm.addEventListener('submit', function(event) {
   event.preventDefault();
 
@@ -12,9 +16,9 @@ urlForm.addEventListener('submit', function(event) {
     if (this.status === 200) {
       var newUrl = JSON.parse(this.response);
       divUrls.innerHTML += '<p>Original URL: ' +
-        newUrl.original_url +
+        makeLink(newUrl.original_url) +
         '<br>Short URL: ' +
-        newUrl.short_url +
+        makeLink(newUrl.short_url) +
         '</p>';
     }
   });
