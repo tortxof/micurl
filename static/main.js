@@ -1,28 +1,36 @@
-var bGetShortUrl = document.getElementById('get_short_url');
-var urlForm = document.getElementById('url_form');
-var divUrls = document.getElementById('urls');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
-function makeLink(url) {
-  return '<a href="' + url + '">' + url + '</a>';
-}
+var test_data = [{"original_url":"https://www.example.com/","short_url":"http://localhost:5000/GL4s", "key": "GL4s"}];
 
-urlForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  var formData = new FormData(urlForm);
-  var xhr = new XMLHttpRequest();
-
-  xhr.addEventListener('load', function() {
-    if (this.status === 200) {
-      var newUrl = JSON.parse(this.response);
-      divUrls.innerHTML += '<p>Original URL: ' +
-        makeLink(newUrl.original_url) +
-        '<br>Short URL: ' +
-        makeLink(newUrl.short_url) +
-        '</p>';
-    }
-  });
-
-  xhr.open('POST', urlForm.action);
-  xhr.send(formData);
+var UrlList = React.createClass({
+  render: function() {
+    var urlNodes = this.props.data.map(function(url) {
+      return (
+        <Url original_url={url.original_url} short_url={url.short_url} key={url.key} />
+      );
+    });
+    return (
+      <div className="url-list">
+        {urlNodes}
+      </div>
+    );
+  }
 });
+
+var Url = React.createClass({
+  render: function() {
+    return (
+      <div className="url">
+        <div>Original URL: <a href={this.props.original_url}>{this.props.original_url}</a></div>
+        <div>Short URL: <a href={this.props.short_url}>{this.props.short_url}</a></div>
+      </div>
+    )
+  }
+});
+
+
+ReactDOM.render(
+  <UrlList data={test_data} />,
+  document.getElementById('urls')
+);
