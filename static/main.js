@@ -18,16 +18,17 @@ var UrlList = React.createClass({
   }
 });
 
-var Url = React.createClass({
-  render: function() {
-    return (
-      <div className="url">
-        <div>Original URL: <a href={this.props.original_url}>{this.props.original_url}</a></div>
-        <div>Short URL: <a href={this.props.short_url}>{this.props.short_url}</a></div>
-      </div>
-    )
-  }
-});
+var Url = ({
+  original_url,
+  short_url
+}) => {
+  return (
+    <div className="url">
+      <div>Original URL: <a href={original_url}>{original_url}</a></div>
+      <div>Short URL: <a href={short_url}>{short_url}</a></div>
+    </div>
+  )
+}
 
 
 ReactDOM.render(
