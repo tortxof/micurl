@@ -1,18 +1,30 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
-
-const test_data = {"originalUrl":"https://www.example.com/","shortUrl":"http://localhost:5000/GL4s"}
+const React = require('react')
+const ReactDOM = require('react-dom')
 
 const UrlContainer = React.createClass({
   getInitialState: function() {
     return {urls: []}
   },
   handleUrlSubmit: function(url) {
-    console.log('UrlContainer handleUrlSubmit url', url)
-    this.setState({
-      urls: this.state.urls.concat([{originalUrl: url.originalUrl, shortUrl: test_data.shortUrl}])
+    const formData = new FormData()
+    const xhr = new XMLHttpRequest()
+    formData.append('url', url.originalUrl)
+    const urlContainerThis = this
+    xhr.addEventListener('load', function() {
+      if (this.status === 200) {
+        const newUrl = JSON.parse(this.response)
+        urlContainerThis.setState({
+          urls: urlContainerThis.state.urls.concat([
+            {
+              originalUrl: newUrl.original_url,
+              shortUrl: newUrl.short_url
+            }
+          ])
+        })
+      }
     })
-    console.log('UrlContainer handleUrlSubmit this.state.urls', this.state.urls)
+    xhr.open('POST', '/new/');
+    xhr.send(formData);
   },
   render: function() {
     return (
@@ -33,7 +45,6 @@ const UrlForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault()
-    console.log('submit handler')
     const originalUrl = this.state.originalUrl.trim()
     if (!originalUrl) {
       return
@@ -56,10 +67,11 @@ const UrlForm = React.createClass({
   }
 })
 
-var UrlList = React.createClass({
+const UrlList = React.createClass({
   render: function() {
-    console.log('UrlList render func this.props.urls', this.props.urls)
-    var urlNodes = this.props.urls.map(url => (<Url originalUrl={url.originalUrl} shortUrl={url.shortUrl} />))
+    const urlNodes = this.props.urls.map(
+      url => (<Url originalUrl={url.originalUrl} shortUrl={url.shortUrl} />)
+    )
     return (
       <div className="url-list">
         {urlNodes}
@@ -68,7 +80,7 @@ var UrlList = React.createClass({
   }
 })
 
-var Url = ({
+const Url = ({
   originalUrl,
   shortUrl
 }) => {
