@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "webpack-dev": "webpack static/main.js static/bundle.js -wd --module-bind 'js=babel-loader'",
+    "webpack-watch": "webpack -wd",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel Jones <tortxof@gmail.com>",
