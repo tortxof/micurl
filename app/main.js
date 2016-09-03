@@ -11,18 +11,17 @@ const UrlContainer = React.createClass({
     const formData = new FormData()
     const xhr = new XMLHttpRequest()
     formData.append('url', url.originalUrl)
-    const urlContainerThis = this
+    const urlContainer = this
     xhr.addEventListener('load', function() {
       if (this.status === 200) {
         const newUrl = JSON.parse(this.response)
-        urlContainerThis.setState({
-          urls: urlContainerThis.state.urls.concat([
-            {
-              originalUrl: newUrl.original_url,
-              shortUrl: newUrl.short_url
-            }
-          ])
-        })
+        if (urlContainer.isMounted()) {
+          urlContainer.setState({
+            urls: [
+              {originalUrl: newUrl.original_url,shortUrl: newUrl.short_url}
+            ].concat(urlContainer.state.urls)
+          })
+        }
       }
     })
     xhr.open('POST', '/new/');
