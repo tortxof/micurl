@@ -55,13 +55,20 @@ const UrlForm = React.createClass({
   render: function() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input
-          type='url'
-          placeholder='https://www.example.com/'
-          value={this.state.originalUrl}
-          onChange={this.handleOriginalUrlChange}
-        />
-        <button type='submit'>Get Short URL</button>
+        <div className='row'>
+          <label>
+            Long URL
+            <input
+              className='u-full-width'
+              type='url'
+              placeholder='https://www.example.com/'
+              value={this.state.originalUrl}
+              onChange={this.handleOriginalUrlChange}
+              autoFocus
+            />
+          </label>
+        </div>
+        <button className='button-primary' type='submit'>Get Short URL</button>
       </form>
     )
   }
