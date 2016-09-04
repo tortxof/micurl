@@ -35,7 +35,7 @@ app.set('view engine', 'pug');
 const Url = require('./models/url');
 
 app.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', {app_url: app.get('app_url')});
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));

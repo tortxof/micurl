@@ -1,5 +1,14 @@
 require('./main.sass')
 
+document.getElementById('show-about').addEventListener('click', function() {
+  const aboutSection = document.querySelector('.about')
+  if (aboutSection.style.display === 'block') {
+    aboutSection.style.display = 'none'
+  } else {
+    aboutSection.style.display = 'block'
+  }
+})
+
 const React = require('react')
 const ReactDOM = require('react-dom')
 
