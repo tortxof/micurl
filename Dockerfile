@@ -10,6 +10,8 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+ENV NODE_ENV=production
+
 COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app/
