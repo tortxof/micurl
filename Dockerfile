@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app/
-RUN npm postinstall
+RUN npm run postinstall
 
 USER app
 EXPOSE 5000
