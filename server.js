@@ -39,6 +39,7 @@ app.get('/', function(req, res) {
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));
+newRouter.use(bodyParser.json());
 newRouter.use(multer.none());
 
 newRouter.use(function(req, res, next) {
