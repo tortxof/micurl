@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+app.set('app_name', (process.env.APP_NAME || 'micurl'));
 app.set('port', (process.env.PORT || 5000));
 app.set('app_url', (process.env.APP_URL || 'http://localhost:' + app.get('port')));
 app.set('mongo_user', (process.env.MONGO_USER || null));
@@ -35,7 +36,13 @@ app.set('view engine', 'pug');
 const Url = require('./models/url');
 
 app.get('/', function(req, res) {
-  res.render('index', {app_url: app.get('app_url')});
+  res.render(
+    'index',
+    {
+      app_url: app.get('app_url'),
+      app_name: app.get('app_name')
+    }
+  );
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));
