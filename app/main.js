@@ -7,10 +7,10 @@ const UrlContainer = React.createClass({
   getInitialState: function() {
     return {urls: []}
   },
-  handleUrlSubmit: function(url) {
+  handleUrlSubmit: function(originalUrl) {
     const formData = new FormData()
     const xhr = new XMLHttpRequest()
-    formData.append('url', url.originalUrl)
+    formData.append('url', originalUrl)
     const urlContainer = this
     xhr.addEventListener('load', function() {
       if (this.status === 200) {
@@ -18,7 +18,7 @@ const UrlContainer = React.createClass({
         if (urlContainer.isMounted()) {
           urlContainer.setState({
             urls: [
-              {originalUrl: newUrl.original_url,shortUrl: newUrl.short_url}
+              {originalUrl: newUrl.original_url, shortUrl: newUrl.short_url}
             ].concat(urlContainer.state.urls)
           })
         }
@@ -50,7 +50,7 @@ const UrlForm = React.createClass({
     if (!originalUrl) {
       return
     }
-    this.props.onUrlSubmit({originalUrl: originalUrl})
+    this.props.onUrlSubmit(originalUrl)
     this.setState({originalUrl: ''})
   },
   render: function() {
