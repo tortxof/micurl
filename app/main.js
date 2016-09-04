@@ -1,16 +1,55 @@
 require('./main.sass')
 
-document.getElementById('show-about').addEventListener('click', function() {
-  const aboutSection = document.querySelector('.about')
-  if (aboutSection.style.display === 'block') {
-    aboutSection.style.display = 'none'
-  } else {
-    aboutSection.style.display = 'block'
+const React = require('react')
+const ReactDOM = require('react-dom')
+
+const AboutContainer = React.createClass({
+  appUrl: document.getElementById('urls').dataset.appUrl,
+  getInitialState: function() {
+    return {visible: false}
+  },
+  handleToggle: function() {
+    this.setState({visible: !this.state.visible})
+  },
+  render: function() {
+    return (
+      <div className="about">
+        <button onClick={this.handleToggle}>{'More info \u25BE'}</button>
+        {this.state.visible ? <AboutContent appUrl={this.appUrl} /> : null}
+      </div>
+    )
   }
 })
 
-const React = require('react')
-const ReactDOM = require('react-dom')
+const AboutContent = ({appUrl}) => {
+  return (
+    <div>
+      <p>
+        URLs can be submitted as a <code>GET</code> or <code>POST</code> request.
+        <code>POST</code> content type can be
+        <code>application/x-www-form-urlencoded</code> (vanilla form),
+        <code>multipart/form-data</code> (FormData API),
+        or <code>applicatin/json</code>.
+      </p>
+      <p>Here are some example requests.</p>
+      <ul>
+        <li>
+          <code>{appUrl}/new?url=https://www.example.com/</code>
+        </li>
+        <li>
+          <code>{`curl -H 'Content-Type: application/json' -X POST -d '{"url": "https://www.example.com/"}' ` + appUrl + `/new`}</code>
+        </li>
+        <li>
+          <pre><code>
+            {`<form action="` + appUrl + `/new" method="post">\n  <input type="url" name="url" />\n  <button type="submit">Get Short URL</button>\n</form>`}
+          </code></pre>
+        </li>
+      </ul>
+      <p>And an example response.</p>
+      <code>{`{"original_url":"https://www.example.com/","short_url":"` + appUrl + `/fz58"}`}</code>
+    </div>
+  )
+}
 
 const UrlContainer = React.createClass({
   getInitialState: function() {
@@ -90,7 +129,7 @@ const UrlList = React.createClass({
       url => (<Url originalUrl={url.originalUrl} shortUrl={url.shortUrl} />)
     )
     return (
-      <div className="url-list">
+      <div>
         {urlNodes}
       </div>
     )
@@ -110,6 +149,11 @@ const Url = ({
 }
 
 ReactDOM.render(
-  <UrlContainer />,
+  (
+    <div>
+      <AboutContainer />
+      <UrlContainer />
+    </div>
+  ),
   document.getElementById('urls')
 )

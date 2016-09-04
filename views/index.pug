@@ -10,25 +10,6 @@ html(lang="en")
       h1= app_name
       h3 a url shortener
 
-      button#show-about More info &dtrif;
-
-      .about
-
-        p.
-
-          URLs can be submitted as a #[code GET] or #[code POST] request.
-          #[code POST] content type can be
-          #[code application/x-www-form-urlencoded] (vanilla form),
-          #[code multipart/form-data] (FormData API),
-          or #[code applicatin/json].
-
-        p Here are some examples.
-
-        ul
-          li: code #{app_url}/new?url=https://www.example.com/
-          li: code curl -H 'Content-Type: application/json' -X POST -d '{"url": "https://www.example.com/"}' #{app_url}/new
-          li: pre: code= "<form action=\"" + app_url + "/new\" method=\"post\">\n  <input type=\"url\" name=\"url\" />\n  <button type=\"submit\">Get Short URL</button>\n</form>"
-
-      #urls
+      #urls(data-app-url=app_url)
 
     script(src="/static/bundle.js")
