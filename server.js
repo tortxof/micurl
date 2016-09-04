@@ -42,10 +42,12 @@ newRouter.use(bodyParser.urlencoded({ extended: false }));
 newRouter.use(bodyParser.json());
 newRouter.use(multer.none());
 
+// Create a new Url object, get the original_url from the request, test it's
+// validity, and set it on our Url object.
 newRouter.use(function(req, res, next) {
   const url = new Url();
   if (req.method === 'GET') {
-    url.original_url = req.originalUrl.match(/^\/new\/(.*)/)[1];
+    url.original_url = req.query.url || '';
   } else if (req.method === 'POST') {
     url.original_url = req.body.url;
   } else {
@@ -59,6 +61,8 @@ newRouter.use(function(req, res, next) {
   }
 });
 
+// Generate a random slug, set it on our Url object, save the Url to database,
+// and send our json response.
 newRouter.all('/*', function(req, res) {
   req.new_url.slug = crypto.randomBytes(3).toString('base64')
     .replace(/\+/g, '-')
