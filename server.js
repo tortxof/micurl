@@ -76,7 +76,7 @@ newRouter.all('/*', function(req, res) {
     .replace(/\//g, '_');
   req.new_url.save(function(err) {
     if (err) {
-      res.send(err);
+      res.status(500).send(err);
     } else {
       res.json({
         original_url: req.new_url.original_url,
