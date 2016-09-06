@@ -129,7 +129,7 @@ const UrlForm = React.createClass({
 const UrlList = React.createClass({
   render: function() {
     const urlNodes = this.props.urls.map(
-      url => (<Url originalUrl={url.originalUrl} shortUrl={url.shortUrl} />)
+      url => (<Url originalUrl={url.originalUrl} shortUrl={url.shortUrl} key={url.shortUrl} />)
     )
     return (
       <div>
