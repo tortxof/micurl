@@ -64,19 +64,19 @@ const UrlContainer = React.createClass({
       },
       body: JSON.stringify({url: originalUrl})
     })
-    .then(function(response) {
+    .then(response => {
       if (response.status === 200) {
-        response.json().then(function(newUrl) {
+        response.json().then(newUrl => {
           this.setState({
             urls: [
               {originalUrl: newUrl.original_url, shortUrl: newUrl.short_url}
             ].concat(this.state.urls)
           })
-        }.bind(this))
+        })
       } else {
         console.log('Failed to get short URL.')
       }
-    }.bind(this))
+    })
   },
   render: function() {
     return (
