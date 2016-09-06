@@ -56,24 +56,27 @@ const UrlContainer = React.createClass({
     return {urls: []}
   },
   handleUrlSubmit: function(originalUrl) {
-    const formData = new FormData()
-    const xhr = new XMLHttpRequest()
-    formData.append('url', originalUrl)
-    const urlContainer = this
-    xhr.addEventListener('load', function() {
-      if (this.status === 200) {
-        const newUrl = JSON.parse(this.response)
-        if (urlContainer.isMounted()) {
-          urlContainer.setState({
+    fetch('/new', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({url: originalUrl})
+    })
+    .then(function(response) {
+      if (response.status === 200) {
+        response.json().then(function(newUrl) {
+          this.setState({
             urls: [
               {originalUrl: newUrl.original_url, shortUrl: newUrl.short_url}
-            ].concat(urlContainer.state.urls)
+            ].concat(this.state.urls)
           })
-        }
+        }.bind(this))
+      } else {
+        console.log('Failed to get short URL.')
       }
-    })
-    xhr.open('POST', '/new/');
-    xhr.send(formData);
+    }.bind(this))
   },
   render: function() {
     return (
