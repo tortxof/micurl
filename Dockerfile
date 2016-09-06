@@ -12,10 +12,8 @@ WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
 
-COPY package.json /usr/src/app/
-RUN npm install
 COPY . /usr/src/app/
-RUN npm run postinstall
+RUN npm install
 
 USER docker
 EXPOSE 5000
