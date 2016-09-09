@@ -53,7 +53,20 @@ const AboutContent = ({appUrl}) => {
 
 const UrlContainer = React.createClass({
   getInitialState: function() {
-    return {urls: []}
+    let urls = []
+    if (this.getLocalStorage()) {
+      urls = this.getLocalStorage()
+    }
+    return {urls: urls}
+  },
+  getLocalStorage() {
+    return JSON.parse(localStorage.getItem("urls"))
+  },
+  setLocalStorage(urls) {
+    localStorage.setItem(
+      "urls",
+      JSON.stringify(urls)
+    )
   },
   handleUrlSubmit: function(originalUrl) {
     fetch('/new', {
@@ -72,6 +85,7 @@ const UrlContainer = React.createClass({
               {originalUrl: newUrl.original_url, shortUrl: newUrl.short_url}
             ].concat(this.state.urls)
           })
+          this.setLocalStorage(this.state.urls)
         })
       } else {
         console.log('Failed to get short URL.')
