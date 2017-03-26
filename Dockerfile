@@ -1,4 +1,4 @@
-FROM node:4
+FROM node:6
 MAINTAINER Daniel Jones <tortxof@gmail.com>
 
 RUN groupadd -r docker && useradd -r -g docker docker
