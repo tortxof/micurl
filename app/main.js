@@ -37,17 +37,17 @@ const AboutContent = ({appUrl}) => {
           <code>{appUrl}/new?url=https://www.example.com/</code>
         </li>
         <li>
-          <code>{`curl -H 'Content-Type: application/json' -X POST -d '{"url": "https://www.example.com/"}' ` + appUrl + `/new`}</code>
+          <code>{`curl -H 'Content-Type: application/json' -X POST -d '{"url": "https://www.example.com/"}' ${appUrl}/new`}</code>
         </li>
         <li>
           <pre><code>
-            {`<form action="` + appUrl + `/new" method="post">\n  <input type="url" name="url" />\n  <button type="submit">Get Short URL</button>\n</form>`}
+            {`<form action="${appUrl}/new" method="post">\n  <input type="url" name="url" />\n  <button type="submit">Get Short URL</button>\n</form>`}
           </code></pre>
         </li>
       </ul>
       <p>And an example response.</p>
       <p>
-        <code>{`{"original_url":"https://www.example.com/","short_url":"` + appUrl + `/fz58"}`}</code>
+        <code>{`{"original_url":"https://www.example.com/","short_url":"${appUrl}/fz58"}`}</code>
       </p>
       <p>View this project on <a href="https://github.com/tortxof/micurl">GitHub</a>.</p>
     </div>
