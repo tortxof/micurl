@@ -46,7 +46,10 @@ const AboutContent = ({appUrl}) => {
         </li>
       </ul>
       <p>And an example response.</p>
-      <code>{`{"original_url":"https://www.example.com/","short_url":"` + appUrl + `/fz58"}`}</code>
+      <p>
+        <code>{`{"original_url":"https://www.example.com/","short_url":"` + appUrl + `/fz58"}`}</code>
+      </p>
+      <p>View this project on <a href="https://github.com/tortxof/micurl">GitHub</a>.</p>
     </div>
   )
 }
