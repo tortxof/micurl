@@ -48,6 +48,10 @@ app.get('/', function(req, res) {
 newRouter.use(bodyParser.urlencoded({ extended: false }));
 newRouter.use(bodyParser.json());
 newRouter.use(multer.none());
+newRouter.use(function(req, res, next) {
+  res.set('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // Create a new Url object, get the original_url from the request, test it's
 // validity, and set it on our Url object.
