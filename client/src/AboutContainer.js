@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AboutContent from '/AboutContent';
+import AboutContent from './AboutContent';
 
 class AboutContainer extends Component {
   constructor(props) {
