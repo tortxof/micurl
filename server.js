@@ -9,25 +9,34 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-app.set('app_name', (process.env.APP_NAME || 'micurl'));
-app.set('port', (process.env.PORT || 5000));
-app.set('app_url', (process.env.APP_URL || 'http://localhost:' + app.get('port')));
-app.set('mongo_user', (process.env.MONGO_USER || null));
-app.set('mongo_password', (process.env.MONGO_PASSWORD || null));
-app.set('mongo_server', (process.env.MONGO_SERVER || 'localhost:27017'));
-app.set('mongo_db', (process.env.MONGO_DB || 'micurl'));
+app.set('app_name', process.env.APP_NAME || 'micurl');
+app.set('port', process.env.PORT || 5000);
+app.set(
+  'app_url',
+  process.env.APP_URL || 'http://localhost:' + app.get('port')
+);
+app.set('mongo_user', process.env.MONGO_USER || null);
+app.set('mongo_password', process.env.MONGO_PASSWORD || null);
+app.set('mongo_server', process.env.MONGO_SERVER || 'localhost:27017');
+app.set('mongo_db', process.env.MONGO_DB || 'micurl');
 
 app.use('/static', express.static(__dirname + '/static'));
 
-app.set('views', './views')
+app.set('views', './views');
 app.set('view engine', 'pug');
 
 (function() {
   let db_uri;
   if (app.get('mongo_user') && app.get('mongo_password')) {
-    db_uri = 'mongodb://' +
-      app.get('mongo_user') + ':' + app.get('mongo_password') +
-      '@' + app.get('mongo_server') + '/' + app.get('mongo_db');
+    db_uri =
+      'mongodb://' +
+      app.get('mongo_user') +
+      ':' +
+      app.get('mongo_password') +
+      '@' +
+      app.get('mongo_server') +
+      '/' +
+      app.get('mongo_db');
   } else {
     db_uri = 'mongodb://' + app.get('mongo_server') + '/' + app.get('mongo_db');
   }
@@ -36,13 +45,10 @@ app.set('view engine', 'pug');
 const Url = require('./models/url');
 
 app.get('/', function(req, res) {
-  res.render(
-    'index',
-    {
-      app_url: app.get('app_url'),
-      app_name: app.get('app_name')
-    }
-  );
+  res.render('index', {
+    app_url: app.get('app_url'),
+    app_name: app.get('app_name')
+  });
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));
@@ -64,8 +70,8 @@ newRouter.use(function(req, res, next) {
   } else {
     res.status(404).send('Bad request method.');
   }
-  if (! /^(?:http|https):\/\/.+\..+/.test(url.original_url)) {
-    res.status(400).json({error: 'Not a valid url.'});
+  if (!/^(?:http|https):\/\/.+\..+/.test(url.original_url)) {
+    res.status(400).json({ error: 'Not a valid url.' });
   } else {
     req.new_url = url;
     next();
@@ -75,7 +81,9 @@ newRouter.use(function(req, res, next) {
 // Generate a random slug, set it on our Url object, save the Url to database,
 // and send our json response.
 newRouter.all('/*', function(req, res) {
-  req.new_url.slug = crypto.randomBytes(3).toString('base64')
+  req.new_url.slug = crypto
+    .randomBytes(3)
+    .toString('base64')
     .replace(/\+/g, '-')
     .replace(/\//g, '_');
   req.new_url.save(function(err) {
@@ -94,11 +102,14 @@ app.use('/new', newRouter);
 
 app.get(/^\/(?:\w|\-){4}/, function(req, res) {
   const slug = req.originalUrl.match(/^\/(.{4,})/)[1];
-  Url.findOne({slug: slug}, 'original_url', function(err, url) {
+  Url.findOne({ slug: slug }, 'original_url', function(err, url) {
     if (err) {
       res.send(err);
     } else if (!url) {
-      res.status(404).send('url not found.').end();
+      res
+        .status(404)
+        .send('url not found.')
+        .end();
     } else {
       res.redirect(url.original_url);
     }
