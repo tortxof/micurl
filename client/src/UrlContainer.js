@@ -21,7 +21,7 @@ class UrlContainer extends Component {
   }
 
   handleUrlSubmit(originalUrl) {
-    fetch('/new', {
+    fetch(`${process.env.REACT_APP_URL}/new`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -59,4 +59,3 @@ class UrlContainer extends Component {
 }
 
 export default UrlContainer;
-
