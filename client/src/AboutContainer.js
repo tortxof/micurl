@@ -18,7 +18,9 @@ class AboutContainer extends Component {
     return (
       <div className="about">
         <button onClick={this.handleToggle}>{'More info \u25BE'}</button>
-        {this.state.visible ? <AboutContent appUrl={this.appUrl} /> : null}
+        {this.state.visible ? (
+          <AboutContent appUrl={process.env.REACT_APP_URL} />
+        ) : null}
       </div>
     );
   }
