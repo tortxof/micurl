@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const crypto = require('crypto');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -17,7 +18,7 @@ app.set(
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 app.get('/', function(req, res) {
   res.render('index', {
