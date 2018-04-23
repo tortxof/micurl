@@ -59,7 +59,7 @@ newRouter.use(function(req, res, next) {
   res.set('Access-Control-Allow-Methods', 'GET,POST');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') {
-    res.send(200);
+    res.send(204);
   } else {
     next();
   }
