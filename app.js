@@ -15,8 +15,6 @@ app.set(
   'app_url',
   process.env.APP_URL || 'http://localhost:' + app.get('port')
 );
-app.set('views', './views');
-app.set('view engine', 'ejs');
 
 app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
