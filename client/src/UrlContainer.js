@@ -10,6 +10,7 @@ class UrlContainer extends Component {
       urls = this.getLocalStorage();
     }
     this.state = { urls: urls };
+    this.handleUrlSubmit = this.handleUrlSubmit.bind(this);
   }
 
   getLocalStorage() {
