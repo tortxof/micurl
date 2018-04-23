@@ -21,10 +21,7 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 app.get('/', function(req, res) {
-  res.render('index', {
-    app_url: app.get('app_url'),
-    app_name: app.get('app_name')
-  });
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
 newRouter.use(bodyParser.urlencoded({ extended: false }));
