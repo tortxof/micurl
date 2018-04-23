@@ -56,7 +56,12 @@ newRouter.use(bodyParser.json());
 newRouter.use(multer.none());
 newRouter.use(function(req, res, next) {
   res.set('Access-Control-Allow-Origin', '*');
-  next();
+  res.set('Access-Control-Allow-Methods', 'GET,POST');
+  if (req.method === 'OPTIONS') {
+    res.send(200);
+  } else {
+    next();
+  }
 });
 
 // Create a new Url object, get the original_url from the request, test it's
