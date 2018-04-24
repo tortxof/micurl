@@ -4,6 +4,7 @@ const path = require('path');
 const crypto = require('crypto');
 const express = require('express');
 const bodyParser = require('body-parser');
+const db = require('./db');
 
 const newRouter = express.Router();
 
@@ -27,7 +28,7 @@ newRouter.use(bodyParser.json());
 // Create a new Url object, get the original_url from the request, test it's
 // validity, and set it on our Url object.
 newRouter.use(function(req, res, next) {
-  const url = new Url();
+  const url = {};
   if (req.method === 'GET') {
     url.original_url = req.query.url || '';
   } else if (req.method === 'POST') {
@@ -51,12 +52,13 @@ newRouter.all('/*', function(req, res) {
     .toString('base64')
     .replace(/\+/g, '-')
     .replace(/\//g, '_');
-  req.new_url.save(function(err) {
+  db.putUrl(req.new_url.slug, req.new_url.original_url, function(err, data) {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).end();
+      console.log(err);
     } else {
       res.json({
-        original_url: req.new_url.original_url,
+        original_url: data.original_url,
         short_url: app.get('app_url') + '/' + req.new_url.slug
       });
     }
@@ -67,7 +69,18 @@ app.use('/new', newRouter);
 
 app.get(/^\/(?:\w|\-){4}$/, function(req, res) {
   const slug = req.originalUrl.match(/^\/(.{4,})/)[1];
-  res.send(slug);
+  db.getUrl(slug, function(err, data) {
+    if (err) {
+      res.status(500).end();
+      console.log(err);
+    } else {
+      if (data != null) {
+        res.redirect(data.original_url);
+      } else {
+        res.status(404).send('Slug not found.');
+      }
+    }
+  });
 });
 
 app.listen(app.get('port'), function() {
