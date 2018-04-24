@@ -35,7 +35,7 @@ newRouter.use(function(req, res, next) {
   } else {
     res.status(404).send('Bad request method.');
   }
-  if (!/^(?:http|https):\/\/.+\..+/.test(url.original_url)) {
+  if (!/^(?:http|https):\/\/.+/.test(url.original_url)) {
     res.status(400).json({ error: 'Not a valid url.' });
   } else {
     req.new_url = url;
