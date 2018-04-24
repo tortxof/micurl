@@ -65,7 +65,7 @@ newRouter.all('/*', function(req, res) {
 
 app.use('/new', newRouter);
 
-app.get(/^\/(?:\w|\-){4}/, function(req, res) {
+app.get(/^\/(?:\w|\-){4}$/, function(req, res) {
   const slug = req.originalUrl.match(/^\/(.{4,})/)[1];
   res.send(slug);
 });
