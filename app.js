@@ -9,7 +9,6 @@ const newRouter = express.Router();
 
 const app = express();
 
-app.set('app_name', process.env.APP_NAME || 'micurl');
 app.set('port', process.env.PORT || 5000);
 app.set(
   'app_url',
