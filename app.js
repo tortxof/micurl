@@ -83,6 +83,7 @@ app.get(/^\/(?:\w|\-){4}$/, function(req, res) {
   });
 });
 
-app.listen(app.get('port'), function() {
-  console.log('App is listening on port', app.get('port'));
-});
+// app.listen(app.get('port'), function() {
+//   console.log('App is listening on port', app.get('port'));
+// });
+module.exports = app;
