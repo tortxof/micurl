@@ -6,6 +6,7 @@
   },
   "author": "Daniel Jones <tortxof@gmail.com>",
   "license": "ISC",
+  "files": ["app.js", "db.js", "lambda.js", "client/build"],
   "dependencies": {
     "aws-sdk": "^2.227.1",
     "aws-serverless-express": "^3.2.0",
