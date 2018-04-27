@@ -8,7 +8,7 @@ function getUrl(slug, callback) {
       Key: {
         slug: { S: slug }
       },
-      TableName: 'micurl-test'
+      TableName: process.env.DYNAMODB_TABLE_NAME
     },
     function(err, data) {
       if (err) {
@@ -34,7 +34,7 @@ function putUrl(slug, url, callback) {
         slug: { S: slug },
         url: { S: url }
       },
-      TableName: 'micurl-test',
+      TableName: process.env.DYNAMODB_TABLE_NAME,
       ConditionExpression: 'attribute_not_exists(slug)'
     },
     function(err, data) {
