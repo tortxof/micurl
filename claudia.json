@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "micurl-executor",
+    "name": "micurl",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "cjf29oos9e"
+  }
+}
