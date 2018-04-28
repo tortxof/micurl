@@ -83,7 +83,10 @@ app.get(/^\/(?:\w|\-){4}$/, function(req, res) {
   });
 });
 
-// app.listen(app.get('port'), function() {
-//   console.log('App is listening on port', app.get('port'));
-// });
+if (!process.env.AWS_EXECUTION_ENV) {
+  app.listen(app.get('port'), function() {
+    console.log('App is listening on port', app.get('port'));
+  });
+}
+
 module.exports = app;
