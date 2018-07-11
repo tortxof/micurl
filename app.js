@@ -31,11 +31,16 @@ newRouter.use(function(req, res, next) {
   const url = {};
   if (req.method === 'GET') {
     url.original_url = req.query.url || '';
+    next();
   } else if (req.method === 'POST') {
     url.original_url = req.body.url;
+    next();
   } else {
-    res.status(404).send('Bad request method.');
+    res.sendStatus(405);
   }
+});
+
+newRouter.use(function(req, res, next) {
   if (!/^(?:http|https):\/\/.+/.test(url.original_url)) {
     res.status(400).json({ error: 'Not a valid url.' });
   } else {
